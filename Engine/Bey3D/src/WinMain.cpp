@@ -18,7 +18,7 @@ int CALLBACK WinMain(
 		DispatchMessage(&msg);
 	}
 
-	// check if GetMessage call itself borked
+	// check if GetMessage call itself puked
 	if (gResult == -1)
 		return -1;
 
