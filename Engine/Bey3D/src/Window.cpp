@@ -96,6 +96,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 
 // Window Stuff
 Window::Window(int width, int height, const char* name)
+	: width(width), height(height)
 {
 	// calculate window size based on desired client region size
 	RECT wr;
@@ -207,7 +208,28 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_MOUSEMOVE:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		mouse.OnMouseMove(pt.x, pt.y);
+		// in client region -> log move, and log enter + capture mouse (if not previously in window)
+		if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
+		{
+			mouse.OnMouseMove(pt.x, pt.y);
+			if (!mouse.IsInWindow())
+			{
+				SetCapture(hWnd);
+				mouse.OnMouseEnter();
+			}
+		}
+		else // not in client -> log move / maintain capture if button down
+		{
+			if (wParam & (MK_LBUTTON | MK_RBUTTON))
+			{
+				mouse.OnMouseMove(pt.x, pt.y);
+			}			
+			else // button up -> release capture / log event for leaving
+			{
+				ReleaseCapture();
+				mouse.OnMouseLeave();
+			}
+		}
 		break;
 	}
 	case WM_LBUTTONDOWN:
@@ -226,25 +248,31 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftReleased(pt.x, pt.y);
+		// release mouse if outside of window
+		if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+		{
+			ReleaseCapture();
+			mouse.OnMouseLeave();
+		}
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnRightReleased(pt.x, pt.y);
+		// release mouse if outside of window
+		if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+		{
+			ReleaseCapture();
+			mouse.OnMouseLeave();
+		}
 		break;
 	}
 	case WM_MOUSEWHEEL:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
-		{
-			mouse.OnWheelUp(pt.x, pt.y);
-		}
-		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0)
-		{
-			mouse.OnWheelDown(pt.x, pt.y);
-		}
+		const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+		mouse.OnWheelDelta(pt.x, pt.y, delta);
 		break;
 	}
 	/************** END MOUSE MESSAGES **************/
