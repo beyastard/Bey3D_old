@@ -2,13 +2,13 @@
 #define __WINDOWS_MESSAGE_MAP_H__
 
 #include <unordered_map>
-#include <Windows.h>
+#include "BeyWin.h"
 
 class WindowsMessageMap
 {
 public:
-	WindowsMessageMap();
-	std::string operator()(DWORD msg, LPARAM lp, WPARAM wp) const;
+	WindowsMessageMap() noexcept;
+	std::string operator()(DWORD msg, LPARAM lp, WPARAM wp) const noexcept;
 private:
 	std::unordered_map<DWORD, std::string> map;
 };

@@ -2,12 +2,12 @@
 
 using namespace std::chrono;
 
-BeyTimer::BeyTimer()
+BeyTimer::BeyTimer() noexcept
 {
 	last = steady_clock::now();
 }
 
-float BeyTimer::Mark()
+float BeyTimer::Mark() noexcept
 {
 	const auto old = last;
 	last = steady_clock::now();
@@ -17,7 +17,7 @@ float BeyTimer::Mark()
 	return frameTime.count();
 }
 
-float BeyTimer::Peek() const
+float BeyTimer::Peek() const noexcept
 {
 	return duration<float>(steady_clock::now() - last).count();
 }
