@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="src\BeyException.cpp" />
     <ClCompile Include="src\Keyboard.cpp" />
+    <ClCompile Include="src\Mouse.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\WindowsMessageMap.cpp" />
     <ClCompile Include="src\WinMain.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="include\BeyException.h" />
     <ClInclude Include="include\BeyWin.h" />
     <ClInclude Include="include\Keyboard.h" />
+    <ClInclude Include="include\Mouse.h" />
     <ClInclude Include="include\Window.h" />
     <ClInclude Include="include\WindowsMessageMap.h" />
     <ClInclude Include="resource.h" />
