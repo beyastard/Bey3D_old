@@ -2,6 +2,7 @@
 #define __BEY_3D_APP_H__
 
 #include "Window.h"
+#include "BeyTimer.h"
 
 class App
 {
@@ -15,6 +16,7 @@ private:
 
 private:
 	Window wnd;
+	BeyTimer timer;
 };
 
 #endif // __BEY_3D_APP_H__

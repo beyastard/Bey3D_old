@@ -1,10 +1,7 @@
 ﻿#include "App.h"
 
-
 App::App() : wnd(1140, 600, "Bey3D Engine Window")
-{
-
-}
+{}
 
 int App::Go()
 {
@@ -23,5 +20,7 @@ int App::Go()
 
 void App::DoFrame()
 {
+	const float c = sin(timer.Peek()) / 2.0f + 0.5f;
+	wnd.Gfx().ClearBuffer(c, c, 1.0f);
 	wnd.Gfx().EndFrame();
 }
