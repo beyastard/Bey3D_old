@@ -1,16 +1,5 @@
-﻿#include <Windows.h>
+﻿#include "Window.h"
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg)
-	{
-	case WM_CLOSE:
-		PostQuitMessage(69);
-		break;
-	}
-
-	return DefWindowProc(hWnd, msg, wParam, lParam);
-}
 
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
@@ -18,44 +7,21 @@ int CALLBACK WinMain(
 	LPSTR     lpCmdLine,
 	int       nCmdShow)
 {
-	const auto pClassName = "Bey3D";
-
-	// register window class
-	WNDCLASSEX wc = { 0 };
-	wc.cbSize = sizeof(wc);
-	wc.style = CS_OWNDC;
-	wc.lpfnWndProc = WndProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = nullptr;
-	wc.hCursor = nullptr;
-	wc.hbrBackground = nullptr;
-	wc.lpszMenuName = nullptr;
-	wc.lpszClassName = pClassName;
-	wc.hIconSm = nullptr;
-	RegisterClassEx(&wc);
-
-	// create window instance
-	HWND hWnd = CreateWindowEx(
-		0, pClassName,
-		"Bey3D Engine Window",
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		100, 100, 1140, 600,
-		nullptr, nullptr, hInstance, nullptr
-	);
-
-	// show the window
-	ShowWindow(hWnd, SW_SHOW);
+	Window wnd(1140, 600, "Bey3D Engine Window");
 	
-	// message pump
 	MSG msg;
 	BOOL gResult;
 	while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
 	{
+		// TranslateMessage will post auxiliary WM_CHAR messages from key msgs
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
-	return gResult == -1 ? -1 : int(msg.wParam);
+	// check if GetMessage call itself borked
+	if (gResult == -1)
+		return -1;
+
+	// wParam here is the value passed to PostQuitMessage
+	return int(msg.wParam);
 }
