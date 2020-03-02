@@ -2,7 +2,9 @@
 #define __BEY_3D_WINDOW_DEFINITIONS_H__
 
 // target Windows 7 or later
+#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0601
+#endif // _WIN32_WINNT
 #include <sdkddkver.h>
 
 // The following #defines disable a bunch of unused windows stuff. If you 
@@ -43,7 +45,9 @@
 #define NOIMAGE
 #define NOTAPE
 
+#ifndef STRICT
 #define STRICT
+#endif // STRICT
 
 #include <Windows.h> 
 

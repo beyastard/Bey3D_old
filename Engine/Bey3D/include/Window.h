@@ -5,28 +5,42 @@
 #include "BeyException.h"
 #include "Keyboard.h"
 #include "Mouse.h"
-#include <optional>
 #include "Graphics.h"
+#include <optional>
+#include <memory>
 
 class Window
 {
 public:
 	class Exception : public BeyException
 	{
+		using BeyException::BeyException;
 	public:
-		Exception(int line, const char* file, HRESULT hr) noexcept;
+		static std::string TranslateErrorCode(HRESULT he) noexcept;
+	};
+
+	class HrException : public Exception
+	{
+	public:
+		HrException(int line, const char* file, HRESULT hr) noexcept;
 		const char* what() const noexcept override;
-		virtual const char* GetType() const noexcept;
+		const char* GetType() const noexcept override;
 		static std::string TranslateErrorCode(HRESULT hr) noexcept;
 		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorString() const noexcept;
+		std::string GetErrorDescription()const noexcept;
 
 	private:
 		HRESULT hr;
 	};
 
+	class NoGfxException : public Exception
+	{
+	public:
+		using Exception::Exception;
+		const char* GetType() const noexcept override;
+	};
+
 private:
-	// singleton manages registration/cleanup of window class
 	class WindowClass
 	{
 	public:
@@ -37,8 +51,8 @@ private:
 		WindowClass() noexcept;
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
-		WindowClass& operator=(const WindowClass&) = delete;
-		static constexpr const char* wndClassName = "Bey3D Engine Window";
+		WindowClass& operator = (const WindowClass&) = delete;
+		static constexpr const char* wndClassName = "AngelicaX Engine Window";
 		static WindowClass wndClass;
 		HINSTANCE hInst;
 	};
@@ -47,10 +61,9 @@ public:
 	Window(int width, int height, const char* name);
 	~Window();
 	Window(const Window&) = delete;
-	Window& operator=(const Window&) = delete;
-
+	Window& operator = (const Window&) = delete;
 	void SetTitle(const std::string& title);
-	static std::optional<int> ProcessMessages(); // std::optional seems to have some problems with x64
+	static std::optional<int> ProcessMessages();
 	Graphics& Gfx();
 
 private:
@@ -68,10 +81,5 @@ private:
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
 };
-
-// error exception helper macro
-#define BEYWND_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)
-#define BEYWND_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)
-#define BEYWND_LAST_EXCEPT() Window::Exception(__LINE__, __FILE__, GetLastError())
 
 #endif // __BEY_3D_WINDOW_H__
