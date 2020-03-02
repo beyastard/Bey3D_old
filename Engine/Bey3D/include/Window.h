@@ -5,6 +5,7 @@
 #include "BeyException.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include <optional>
 
 class Window
 {
@@ -48,6 +49,7 @@ public:
 	Window& operator=(const Window&) = delete;
 
 	void SetTitle(const std::string& title);
+	static std::optional<int> ProcessMessages(); // std::optional seems to have some problems with x64
 
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
