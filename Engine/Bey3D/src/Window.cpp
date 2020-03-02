@@ -54,6 +54,8 @@ const char* Window::Exception::GetType() const noexcept
 std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
 	char* pMsgBuf = nullptr;
+
+	// windows will allocate memory for err string and make our pointer point to it
 	DWORD nMsgLen = FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -61,11 +63,12 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
 	);
 
+	// 0 string length returned indicates a failure
 	if (nMsgLen == 0)
 		return "Unidentified error code";
 
-	std::string errorString = pMsgBuf;
-	LocalFree(pMsgBuf);
+	std::string errorString = pMsgBuf; // copy error string from windows-allocated buffer to std::string
+	LocalFree(pMsgBuf); // free windows buffer
 
 	return errorString;
 }
@@ -91,7 +94,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 }
 
 // Window Stuff
-Window::Window(int width, int height, const char* name) noexcept
+Window::Window(int width, int height, const char* name)
 {
 	// calculate window size based on desired client region size
 	RECT wr;
@@ -100,6 +103,12 @@ Window::Window(int width, int height, const char* name) noexcept
 	wr.top = 100;
 	wr.bottom = height + wr.top;
 	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+
+	if (FAILED(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE)))
+	{
+		throw BEYWND_LAST_EXCEPT();
+	};
+
 	// create window & get hWnd
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
@@ -107,6 +116,13 @@ Window::Window(int width, int height, const char* name) noexcept
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
+
+	// check for error
+	if (hWnd == nullptr)
+	{
+		throw BEYWND_LAST_EXCEPT();
+	}
+
 	// show window
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
