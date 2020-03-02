@@ -12,7 +12,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		{
 			// TranslateMessage will post auxiliary WM_CHAR messages from key msgs
 			TranslateMessage(&msg);
-			DispatchMessage(&msg);			
+			DispatchMessage(&msg);
 		}
 
 		// check if GetMessage call itself puked

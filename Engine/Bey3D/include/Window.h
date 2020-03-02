@@ -3,6 +3,7 @@
 
 #include "BeyWin.h"
 #include "BeyException.h"
+#include "Keyboard.h"
 
 class Window
 {
@@ -49,6 +50,9 @@ private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+
+public:
+	Keyboard kbd;
 
 private:
 	int width;
