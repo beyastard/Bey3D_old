@@ -1,11 +1,6 @@
 ﻿#include "Window.h"
 
-
-int CALLBACK WinMain(
-	HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR     lpCmdLine,
-	int       nCmdShow)
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	try
 	{
@@ -22,7 +17,7 @@ int CALLBACK WinMain(
 
 		// check if GetMessage call itself puked
 		if (gResult == -1)
-			return -1;
+			throw BEYWND_LAST_EXCEPT();
 
 		// wParam here is the value passed to PostQuitMessage
 		return int(msg.wParam);
