@@ -1,9 +1,9 @@
-﻿#include "Mouse.h"
 #include "BeyWin.h"
+#include "Mouse.h"
 
 std::pair<int, int> Mouse::GetPos() const noexcept
 {
-	return {x, y};
+	return { x,y };
 }
 
 int Mouse::GetPosX() const noexcept
@@ -39,7 +39,7 @@ std::optional<Mouse::Event> Mouse::Read() noexcept
 		buffer.pop();
 		return e;
 	}
-	
+
 	return {};
 }
 
@@ -131,6 +131,7 @@ void Mouse::OnWheelDelta(int x, int y, int delta) noexcept
 		wheelDeltaCarry -= WHEEL_DELTA;
 		OnWheelUp(x, y);
 	}
+
 	while (wheelDeltaCarry <= -WHEEL_DELTA)
 	{
 		wheelDeltaCarry += WHEEL_DELTA;

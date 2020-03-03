@@ -1,6 +1,4 @@
-﻿#ifndef __BEY_3D_EXCEPTION_H__
-#define __BEY_3D_EXCEPTION_H__
-
+#pragma once
 #include <exception>
 #include <string>
 
@@ -21,5 +19,3 @@ private:
 protected:
 	mutable std::string whatBuffer;
 };
-
-#endif // __BEY_3D_EXCEPTION_H__

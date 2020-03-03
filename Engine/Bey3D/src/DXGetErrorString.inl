@@ -1,4 +1,4 @@
-﻿switch(hr)
+switch(hr)
 {
 // Commmented out codes are actually alises for other codes
 

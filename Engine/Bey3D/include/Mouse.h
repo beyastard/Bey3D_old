@@ -1,6 +1,4 @@
-﻿#ifndef __BEY_3D_MOUSE_H__
-#define __BEY_3D_MOUSE_H__
-
+#pragma once
 #include <queue>
 #include <optional>
 
@@ -34,33 +32,66 @@ public:
 
 	public:
 		Event(Type type, const Mouse& parent) noexcept
-			: type(type), leftIsPressed(parent.leftIsPressed), rightIsPressed(parent.rightIsPressed), x(parent.x), y(parent.y)
+			:
+			type(type),
+			leftIsPressed(parent.leftIsPressed),
+			rightIsPressed(parent.rightIsPressed),
+			x(parent.x),
+			y(parent.y)
 		{}
 
-		Type GetType() const noexcept { return type; }
-		std::pair<int, int> GetPos() const noexcept { return{ x,y }; }
-		int GetPosX() const noexcept { return x; }
-		int GetPosY() const noexcept { return y; }
-		bool LeftIsPressed() const noexcept { return leftIsPressed; }
-		bool RightIsPressed() const noexcept { return rightIsPressed; }
+		Type GetType() const noexcept
+		{
+			return type;
+		}
+
+		std::pair<int,int> GetPos() const noexcept
+		{
+			return{ x,y };
+		}
+
+		int GetPosX() const noexcept
+		{
+			return x;
+		}
+
+		int GetPosY() const noexcept
+		{
+			return y;
+		}
+
+		bool LeftIsPressed() const noexcept
+		{
+			return leftIsPressed;
+		}
+
+		bool RightIsPressed() const noexcept
+		{
+			return rightIsPressed;
+		}
 	};
 
 public:
 	Mouse() = default;
 	Mouse(const Mouse&) = delete;
 	Mouse& operator=(const Mouse&) = delete;
-	std::pair<int, int> GetPos() const noexcept;
+	std::pair<int,int> GetPos() const noexcept;
 	int GetPosX() const noexcept;
 	int GetPosY() const noexcept;
 	bool IsInWindow() const noexcept;
 	bool LeftIsPressed() const noexcept;
 	bool RightIsPressed() const noexcept;
 	std::optional<Event> Read() noexcept;
-	bool IsEmpty() const noexcept { return buffer.empty(); }
+
+	bool IsEmpty() const noexcept
+	{
+		return buffer.empty();
+	}
+
 	void Flush() noexcept;
 
 private:
-	void OnMouseMove(int newX, int newY) noexcept;
+	void OnMouseMove(int x, int y) noexcept;
 	void OnMouseLeave() noexcept;
 	void OnMouseEnter() noexcept;
 	void OnLeftPressed(int x, int y) noexcept;
@@ -82,5 +113,3 @@ private:
 	int wheelDeltaCarry = 0;
 	std::queue<Event> buffer;
 };
-
-#endif // __BEY_3D_MOUSE_H__

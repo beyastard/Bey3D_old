@@ -1,9 +1,9 @@
-﻿#ifndef __DXGI_INFO_MANAGER_H__
-#define __DXGI_INFO_MANAGER_H__
-
+#pragma once
+#include "BeyWin.h"
 #include <wrl.h>
 #include <vector>
 #include <dxgidebug.h>
+#include <string>
 
 class DxgiInfoManager
 {
@@ -19,5 +19,3 @@ private:
 	unsigned long long next = 0u;
 	Microsoft::WRL::ComPtr<IDXGIInfoQueue> pDxgiInfoQueue;
 };
-
-#endif // __DXGI_INFO_MANAGER_H__

@@ -1,6 +1,4 @@
-﻿#ifndef __BEY_3D_WINDOW_H__
-#define __BEY_3D_WINDOW_H__
-
+#pragma once
 #include "BeyWin.h"
 #include "BeyException.h"
 #include "Keyboard.h"
@@ -9,14 +7,16 @@
 #include <optional>
 #include <memory>
 
+
 class Window
 {
 public:
 	class Exception : public BeyException
 	{
 		using BeyException::BeyException;
+
 	public:
-		static std::string TranslateErrorCode(HRESULT he) noexcept;
+		static std::string TranslateErrorCode(HRESULT hr) noexcept;
 	};
 
 	class HrException : public Exception
@@ -25,9 +25,8 @@ public:
 		HrException(int line, const char* file, HRESULT hr) noexcept;
 		const char* what() const noexcept override;
 		const char* GetType() const noexcept override;
-		static std::string TranslateErrorCode(HRESULT hr) noexcept;
 		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorDescription()const noexcept;
+		std::string GetErrorDescription() const noexcept;
 
 	private:
 		HRESULT hr;
@@ -41,6 +40,7 @@ public:
 	};
 
 private:
+	// singleton manages registration/cleanup of window class
 	class WindowClass
 	{
 	public:
@@ -51,8 +51,8 @@ private:
 		WindowClass() noexcept;
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
-		WindowClass& operator = (const WindowClass&) = delete;
-		static constexpr const char* wndClassName = "AngelicaX Engine Window";
+		WindowClass& operator=(const WindowClass&) = delete;
+		static constexpr const char* wndClassName = "Bey3D Direct3D Engine Window";
 		static WindowClass wndClass;
 		HINSTANCE hInst;
 	};
@@ -61,9 +61,9 @@ public:
 	Window(int width, int height, const char* name);
 	~Window();
 	Window(const Window&) = delete;
-	Window& operator = (const Window&) = delete;
+	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
-	static std::optional<int> ProcessMessages();
+	static std::optional<int> ProcessMessages() noexcept;
 	Graphics& Gfx();
 
 private:
@@ -81,5 +81,3 @@ private:
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
 };
-
-#endif // __BEY_3D_WINDOW_H__

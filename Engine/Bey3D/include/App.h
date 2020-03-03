@@ -1,6 +1,4 @@
-﻿#ifndef __BEY_3D_APP_H__
-#define __BEY_3D_APP_H__
-
+#pragma once
 #include "Window.h"
 #include "BeyTimer.h"
 
@@ -9,15 +7,15 @@ class App
 public:
 	App();
 	~App();
-	
-	int Go(); // master frame / message loop
 
+	// master frame / message loop
+	int Go();
+	
 private:
 	void DoFrame();
 
 private:
 	Window wnd;
 	BeyTimer timer;
+	std::vector<std::unique_ptr<class Box>> boxes;
 };
-
-#endif // __BEY_3D_APP_H__

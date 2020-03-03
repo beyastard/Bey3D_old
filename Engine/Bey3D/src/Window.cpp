@@ -1,6 +1,6 @@
-﻿#include "Window.h"
+#include "Window.h"
 #include <sstream>
-#include "../resource.h"
+#include "resource.h"
 #include "WindowsThrowMacros.h"
 
 // Window Class Stuff
@@ -9,102 +9,25 @@ Window::WindowClass Window::WindowClass::wndClass;
 Window::WindowClass::WindowClass() noexcept
 	: hInst(GetModuleHandle(nullptr))
 {
-	WNDCLASSEX wc = {};
-	wc.cbSize = sizeof wc;
+	WNDCLASSEX wc = { 0 };
+	wc.cbSize = sizeof(wc);
 	wc.style = CS_OWNDC;
 	wc.lpfnWndProc = HandleMsgSetup;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = HICON(LoadImage(GetInstance(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 64, 64, 0));
+	wc.hIcon = static_cast<HICON>(LoadImage(GetInstance(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 64, 64, 0));
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = HICON(LoadImage(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));
-
+	wc.hIconSm = static_cast<HICON>(LoadImage(GetInstance(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));
 	RegisterClassEx(&wc);
 }
 
 Window::WindowClass::~WindowClass()
 {
 	UnregisterClass(wndClassName, GetInstance());
-}
-
-Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
-	: Exception(line, file), hr(hr)
-{}
-
-const char* Window::HrException::what() const noexcept
-{
-	std::ostringstream oss;
-	oss << GetType() << std::endl
-		<< "[Error Code] " << GetErrorCode() << std::endl
-		<< "[Description] " << GetErrorDescription() << std::endl
-		<< GetOriginString();
-
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-const char* Window::HrException::GetType() const noexcept
-{
-	return "Bey3D Window Exception";
-}
-
-std::string Window::HrException::TranslateErrorCode(HRESULT hr) noexcept
-{
-	char* pMsgBuf = nullptr;
-	// windows will allocate memory for err string and make our pointer point to it
-	const DWORD nMsgLen = FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
-	);
-	// 0 string length returned indicates a failure
-	if (nMsgLen == 0)
-	{
-		return "Unidentified error code";
-	}
-	// copy error string from windows-allocated buffer to std::string
-	std::string errorString = pMsgBuf;
-	// free windows buffer
-	LocalFree(pMsgBuf);
-	return errorString;
-}
-
-std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
-{
-	char* pMsgBuf = nullptr;
-	DWORD nMsgLen = FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
-	);
-
-	if (nMsgLen == 0)
-		return "Unidentified error code";
-
-	std::string errorString = pMsgBuf;
-	LocalFree(pMsgBuf);
-	return errorString;
-}
-
-HRESULT Window::HrException::GetErrorCode() const noexcept
-{
-	return hr;
-}
-
-std::string Window::HrException::GetErrorDescription() const noexcept
-{
-	return TranslateErrorCode(hr);
-}
-
-const char* Window::NoGfxException::GetType() const noexcept
-{
-	return "Bey3D  Window Exception [No Graphics]";
 }
 
 const char* Window::WindowClass::GetName() noexcept
@@ -117,7 +40,8 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return wndClass.hInst;
 }
 
-// Window class
+
+// Window Stuff
 Window::Window(int width, int height, const char* name)
 	: width(width), height(height)
 {
@@ -129,20 +53,20 @@ Window::Window(int width, int height, const char* name)
 	wr.bottom = height + wr.top;
 
 	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
-		throw BEYWND_LAST_EXCEPT();
+		throw CHWND_LAST_EXCEPT();
 
 	// create window & get hWnd
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		wr.right - wr.left, wr.bottom - wr.top,
+		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this);
 
+	// check for error
 	if (hWnd == nullptr)
-		throw BEYWND_LAST_EXCEPT();
+		throw CHWND_LAST_EXCEPT();
 
-	// show window (starts hidden)
+	// newly created windows start off as hidden
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 
 	// create graphics object
@@ -157,28 +81,36 @@ Window::~Window()
 void Window::SetTitle(const std::string& title)
 {
 	if (SetWindowText(hWnd, title.c_str()) == 0)
-		throw BEYWND_LAST_EXCEPT();
+		throw CHWND_LAST_EXCEPT();
 }
 
-std::optional<int> Window::ProcessMessages()
+std::optional<int> Window::ProcessMessages() noexcept
 {
 	MSG msg;
+
+	// while queue has messages, remove and dispatch them (but do not block on empty queue)
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
+		// check for quit because peekmessage does not signal this via return val
 		if (msg.message == WM_QUIT)
-			return msg.wParam;
+		{
+			// return optional wrapping int (arg to PostQuitMessage is in wparam) signals quit
+			return (int)msg.wParam;
+		}
 
+		// TranslateMessage will post auxiliary WM_CHAR messages from key msgs
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
+	// return empty optional when not quitting app
 	return {};
 }
 
 Graphics& Window::Gfx()
 {
 	if (!pGfx)
-		throw BEYWND_NOGFX_EXCEPT();
+		throw CHWND_NOGFX_EXCEPT();
 
 	return *pGfx;
 }
@@ -224,28 +156,34 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
-		// *** KEYBOARD HANDLERS ***
+		// clear keystate when window loses focus to prevent input getting "stuck"
 	case WM_KILLFOCUS:
 		kbd.ClearState();
 		break;
+
+		/*********** KEYBOARD MESSAGES ***********/
 	case WM_KEYDOWN:
+		// syskey commands need to be handled to track ALT key (VK_MENU) and F10
 	case WM_SYSKEYDOWN:
-		if (!(lParam & 0x40000000) || kbd.AutorepeatIsEnabled())
-			kbd.OnKeyPressed(wParam);
+		if (!(lParam & 0x40000000) || kbd.AutorepeatIsEnabled()) // filter autorepeat
+		{
+			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
+		}
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		kbd.OnKeyReleased(wParam);
+		kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
 		break;
 	case WM_CHAR:
-		kbd.OnChar(wParam);
+		kbd.OnChar(static_cast<unsigned char>(wParam));
 		break;
+		/*********** END KEYBOARD MESSAGES ***********/
 
-		// *** MOUSE HANDLERS ***
+		/************* MOUSE MESSAGES ****************/
 	case WM_MOUSEMOVE:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		// in client region
+		// in client region -> log move, and log enter + capture mouse (if not previously in window)
 		if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
 		{
 			mouse.OnMouseMove(pt.x, pt.y);
@@ -255,10 +193,14 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 				mouse.OnMouseEnter();
 			}
 		}
-		else // not in client region
+		// not in client -> log move / maintain capture if button down
+		else
 		{
-			if (wParam & (MK_LBUTTON | MK_RBUTTON)) // instead of wParam, could also use LeftIsPressed(), etc...
+			if (wParam & (MK_LBUTTON | MK_RBUTTON))
+			{
 				mouse.OnMouseMove(pt.x, pt.y);
+			}
+			// button up -> release capture / log event for leaving
 			else
 			{
 				ReleaseCapture();
@@ -271,7 +213,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftPressed(pt.x, pt.y);
-		// bring window to foreground on lclick client region
 		SetForegroundWindow(hWnd);
 		break;
 	}
@@ -285,21 +226,100 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftReleased(pt.x, pt.y);
+		// release mouse if outside of window
+		if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+		{
+			ReleaseCapture();
+			mouse.OnMouseLeave();
+		}
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnRightReleased(pt.x, pt.y);
+		// release mouse if outside of window
+		if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+		{
+			ReleaseCapture();
+			mouse.OnMouseLeave();
+		}
 		break;
 	}
 	case WM_MOUSEWHEEL:
+	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 		mouse.OnWheelDelta(pt.x, pt.y, delta);
-
 		break;
+	}
+	/************** END MOUSE MESSAGES **************/
+	default:;
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+
+// Window Exception Stuff
+std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
+{
+	char* pMsgBuf = nullptr;
+
+	// windows will allocate memory for err string and make our pointer point to it
+	const DWORD nMsgLen = FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr);
+
+	// 0 string length returned indicates a failure
+	if (nMsgLen == 0)
+		return "Unidentified error code";
+
+	// copy error string from windows-allocated buffer to std::string
+	std::string errorString = pMsgBuf;
+
+	// free windows buffer
+	LocalFree(pMsgBuf);
+
+	return errorString;
+}
+
+
+Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
+	: Exception(line, file), hr(hr)
+{}
+
+const char* Window::HrException::what() const noexcept
+{
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
+		<< std::dec << " (" << static_cast<unsigned long>(GetErrorCode()) << ")" << std::endl
+		<< "[Description] " << GetErrorDescription() << std::endl
+		<< GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* Window::HrException::GetType() const noexcept
+{
+	return "Bey3D Window Exception";
+}
+
+HRESULT Window::HrException::GetErrorCode() const noexcept
+{
+	return hr;
+}
+
+std::string Window::HrException::GetErrorDescription() const noexcept
+{
+	return TranslateErrorCode(hr);
+}
+
+
+const char* Window::NoGfxException::GetType() const noexcept
+{
+	return "Bey3D Window Exception [No Graphics]";
 }

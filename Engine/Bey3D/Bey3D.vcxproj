@@ -94,7 +94,7 @@
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;IS_DEBUG=true;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -112,7 +112,7 @@
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;IS_DEBUG=true;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -132,7 +132,7 @@
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;IS_DEBUG=false;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -154,7 +154,7 @@
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;IS_DEBUG=false;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -169,11 +169,21 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\BeyException.cpp" />
     <ClCompile Include="src\BeyTimer.cpp" />
+    <ClCompile Include="src\Bindable.cpp" />
+    <ClCompile Include="src\Box.cpp" />
+    <ClCompile Include="src\Drawable.cpp" />
     <ClCompile Include="src\DXErr.cpp" />
     <ClCompile Include="src\DxgiInfoManager.cpp" />
     <ClCompile Include="src\Graphics.cpp" />
+    <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\InputLayout.cpp" />
     <ClCompile Include="src\Keyboard.cpp" />
     <ClCompile Include="src\Mouse.cpp" />
+    <ClCompile Include="src\PixelShader.cpp" />
+    <ClCompile Include="src\Topology.cpp" />
+    <ClCompile Include="src\TransformCbuf.cpp" />
+    <ClCompile Include="src\VertexBuffer.cpp" />
+    <ClCompile Include="src\VertexShader.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\WindowsMessageMap.cpp" />
     <ClCompile Include="src\WinMain.cpp" />
@@ -183,13 +193,25 @@
     <ClInclude Include="include\BeyException.h" />
     <ClInclude Include="include\BeyTimer.h" />
     <ClInclude Include="include\BeyWin.h" />
+    <ClInclude Include="include\Bindable.h" />
+    <ClInclude Include="include\BindableBase.h" />
+    <ClInclude Include="include\Box.h" />
     <ClInclude Include="include\ConstantBuffers.h" />
+    <ClInclude Include="include\Drawable.h" />
+    <ClInclude Include="include\DrawableBase.h" />
     <ClInclude Include="include\DXErr.h" />
     <ClInclude Include="include\DxgiInfoManager.h" />
     <ClInclude Include="include\Graphics.h" />
     <ClInclude Include="include\GraphicsThrowMacros.h" />
+    <ClInclude Include="include\IndexBuffer.h" />
+    <ClInclude Include="include\InputLayout.h" />
     <ClInclude Include="include\Keyboard.h" />
     <ClInclude Include="include\Mouse.h" />
+    <ClInclude Include="include\PixelShader.h" />
+    <ClInclude Include="include\Topology.h" />
+    <ClInclude Include="include\TransformCbuf.h" />
+    <ClInclude Include="include\VertexBuffer.h" />
+    <ClInclude Include="include\VertexShader.h" />
     <ClInclude Include="include\Window.h" />
     <ClInclude Include="include\WindowsMessageMap.h" />
     <ClInclude Include="include\WindowsThrowMacros.h" />

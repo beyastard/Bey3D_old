@@ -1,4 +1,4 @@
-﻿DX_CHAR strBufferLine[128];
+DX_CHAR strBufferLine[128];
 DX_CHAR strBufferError[256];
 DX_CHAR strBuffer[BUFFER_SIZE];
 
