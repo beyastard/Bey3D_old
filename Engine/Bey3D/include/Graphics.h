@@ -1,7 +1,6 @@
 ﻿#ifndef __BEY_3D_GRAPHICS_H__
 #define __BEY_3D_GRAPHICS_H__
 
-#include "BeyWin.h"
 #include "BeyException.h"
 #include <d3d11.h>
 #include <vector>
@@ -32,7 +31,7 @@ public:
 		std::string info;
 	};
 
-	class InfoException : public BeyException
+	class InfoException : public Exception
 	{
 	public:
 		InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept;
@@ -47,6 +46,7 @@ public:
 	class DeviceRemovedException : public HrException
 	{
 		using HrException::HrException;
+
 	public:
 		const char* GetType() const noexcept override;
 
@@ -61,7 +61,8 @@ public:
 
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
-	void DrawTestTriangle();
+
+	void DrawTestTriangle(float angle, float x, float y);
 
 private:
 #ifndef NDEBUG
@@ -71,6 +72,7 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain> pSwap;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pTarget;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDSV;
 };
 
 #endif // __BEY_3D_GRAPHICS_H__

@@ -8,6 +8,7 @@ class App
 {
 public:
 	App();
+	~App();
 	
 	int Go(); // master frame / message loop
 

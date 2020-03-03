@@ -16,6 +16,12 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{af02baf4-921c-476d-8a30-30618f00084d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DXErr">
+      <UniqueIdentifier>{a1ffd625-c1fb-4f64-be13-acc279401772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Macros">
+      <UniqueIdentifier>{37a34af9-3121-4e73-aedf-9d0b1d3ade5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\WinMain.cpp">
@@ -45,11 +51,11 @@
     <ClCompile Include="src\Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DXErr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DxgiInfoManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DXErr.cpp">
+      <Filter>DXErr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,17 +89,20 @@
     <ClInclude Include="include\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\DXErr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\DxgiInfoManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GraphicsThrowMacros.h">
+    <ClInclude Include="include\ConstantBuffers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\DXErr.h">
+      <Filter>DXErr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GraphicsThrowMacros.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
     <ClInclude Include="include\WindowsThrowMacros.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Macros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,14 +116,14 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\DXGetErrorDescription.inl">
-      <Filter>Source Files</Filter>
+    <None Include="src\DXTrace.inl">
+      <Filter>DXErr</Filter>
     </None>
     <None Include="src\DXGetErrorString.inl">
-      <Filter>Source Files</Filter>
+      <Filter>DXErr</Filter>
     </None>
-    <None Include="src\DXTrace.inl">
-      <Filter>Source Files</Filter>
+    <None Include="src\DXGetErrorDescription.inl">
+      <Filter>DXErr</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

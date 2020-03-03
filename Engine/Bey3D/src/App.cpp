@@ -3,6 +3,8 @@
 App::App() : wnd(1160, 600, "Bey3D Engine Window")
 {}
 
+App::~App() = default;
+
 int App::Go()
 {
 	while (true)
@@ -21,7 +23,9 @@ int App::Go()
 void App::DoFrame()
 {
 	const float c = sin(timer.Peek()) / 2.0f + 0.5f;
+
 	wnd.Gfx().ClearBuffer(c, c, 1.0f);
-	wnd.Gfx().DrawTestTriangle();
+	wnd.Gfx().DrawTestTriangle(timer.Peek(), wnd.mouse.GetPosX() / 400.0f - 1.0f, -wnd.mouse.GetPosY() / 300.0f + 1.0f);
+
 	wnd.Gfx().EndFrame();
 }
