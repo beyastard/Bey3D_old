@@ -1,4 +1,5 @@
 #pragma once
+
 #include "BeyWin.h"
 #include <wrl.h>
 #include <vector>

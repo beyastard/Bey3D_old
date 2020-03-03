@@ -1,4 +1,5 @@
 #pragma once
+
 #include "BeyWin.h"
 #include "BeyException.h"
 #include "Keyboard.h"
@@ -6,7 +7,6 @@
 #include "Graphics.h"
 #include <optional>
 #include <memory>
-
 
 class Window
 {

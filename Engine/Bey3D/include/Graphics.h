@@ -1,4 +1,5 @@
 #pragma once
+
 #include "BeyWin.h"
 #include "BeyException.h"
 #include <d3d11.h>

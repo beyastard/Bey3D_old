@@ -1,7 +1,6 @@
 #include "BeyException.h"
 #include <sstream>
 
-
 BeyException::BeyException( int line,const char* file ) noexcept
 	: line( line ), file( file )
 {}

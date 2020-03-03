@@ -40,7 +40,6 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return wndClass.hInst;
 }
 
-
 // Window Stuff
 Window::Window(int width, int height, const char* name)
 	: width(width), height(height)
@@ -260,7 +259,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-
 // Window Exception Stuff
 std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
@@ -285,7 +283,6 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 
 	return errorString;
 }
-
 
 Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
 	: Exception(line, file), hr(hr)
