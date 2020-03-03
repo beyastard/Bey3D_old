@@ -28,12 +28,12 @@ public:
 		// the center
 		vertices.emplace_back();
 		vertices.back().pos = { 0.0f,0.0f,-1.0f };
-		const auto iCenter = const_cast<unsigned short>(vertices.size() - 1);
+		const auto iCenter = (unsigned short)vertices.size() - 1;
 
 		// the tip :darkness:
 		vertices.emplace_back();
 		vertices.back().pos = { 0.0f,0.0f,1.0f };
-		const auto iTip = const_cast<unsigned short>(vertices.size() - 1);
+		const auto iTip = (unsigned short)vertices.size() - 1;
 
 		// base indices
 		std::vector<unsigned short> indices;
