@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "BeyTimer.h"
 #include "ImguiManager.h"
+#include "Camera.h"
 
 class App
 {
@@ -20,6 +21,7 @@ private:
 	ImguiManager imgui;
 	Window wnd;
 	BeyTimer timer;
+	Camera cam;
 	std::vector<std::unique_ptr<class Drawable>> drawables;
 	static constexpr size_t nDrawables = 180;
 	float speed_factor = 1.0f;
