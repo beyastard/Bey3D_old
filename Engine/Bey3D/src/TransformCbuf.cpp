@@ -9,11 +9,11 @@ TransformCbuf::TransformCbuf(Graphics& gfx, const Drawable& parent, UINT slot)
 
 void TransformCbuf::Bind(Graphics& gfx) noexcept
 {
-	const auto model = parent.GetTransformXM();
+	const auto modelView = parent.GetTransformXM() * gfx.GetCamera();
 	const Transforms tf =
 	{
-		XMMatrixTranspose(model),
-		XMMatrixTranspose(model * gfx.GetCamera() * gfx.GetProjection())
+		XMMatrixTranspose(modelView),
+		XMMatrixTranspose(modelView * gfx.GetProjection())
 	};
 	pVcbuf->Update(gfx, tf);
 	pVcbuf->Bind(gfx);
