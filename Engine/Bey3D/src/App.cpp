@@ -21,7 +21,8 @@ App::App() : wnd(1160, 600, "Bey3D Engine Demo"), light(wnd.Gfx())
 
 		std::unique_ptr<Drawable> operator()()
 		{
-			return std::make_unique<Box>(gfx, rng, adist, ddist, odist, rdist, bdist);
+			const DirectX::XMFLOAT3 mat = { cdist(rng),cdist(rng),cdist(rng) };
+			return std::make_unique<Box>(gfx, rng, adist, ddist, odist, rdist, bdist, mat);
 		}
 
 	private:
@@ -32,6 +33,7 @@ App::App() : wnd(1160, 600, "Bey3D Engine Demo"), light(wnd.Gfx())
 		std::uniform_real_distribution<float> odist{ 0.0f,PI * 0.08f };
 		std::uniform_real_distribution<float> rdist{ 6.0f,20.0f };
 		std::uniform_real_distribution<float> bdist{ 0.4f,3.0f };
+		std::uniform_real_distribution<float> cdist{ 0.0f,1.0f };
 	};
 
 	drawables.reserve(nDrawables);
