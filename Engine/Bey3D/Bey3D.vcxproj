@@ -100,8 +100,12 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -118,8 +122,12 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -140,8 +148,12 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -162,8 +174,12 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -174,6 +190,7 @@
     <ClCompile Include="src\Drawable.cpp" />
     <ClCompile Include="src\DXErr.cpp" />
     <ClCompile Include="src\DxgiInfoManager.cpp" />
+    <ClCompile Include="src\GDIPlusManager.cpp" />
     <ClCompile Include="src\Graphics.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\InputLayout.cpp" />
@@ -182,6 +199,11 @@
     <ClCompile Include="src\Mouse.cpp" />
     <ClCompile Include="src\PixelShader.cpp" />
     <ClCompile Include="src\Pyramid.cpp" />
+    <ClCompile Include="src\Sampler.cpp" />
+    <ClCompile Include="src\Sheet.cpp" />
+    <ClCompile Include="src\SkinnedBox.cpp" />
+    <ClCompile Include="src\Surface.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Topology.cpp" />
     <ClCompile Include="src\TransformCbuf.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
@@ -206,6 +228,7 @@
     <ClInclude Include="include\DrawableBase.h" />
     <ClInclude Include="include\DXErr.h" />
     <ClInclude Include="include\DxgiInfoManager.h" />
+    <ClInclude Include="include\GDIPlusManager.h" />
     <ClInclude Include="include\Graphics.h" />
     <ClInclude Include="include\GraphicsThrowMacros.h" />
     <ClInclude Include="include\IndexBuffer.h" />
@@ -218,7 +241,12 @@
     <ClInclude Include="include\Plane.h" />
     <ClInclude Include="include\Prism.h" />
     <ClInclude Include="include\Pyramid.h" />
+    <ClInclude Include="include\Sampler.h" />
+    <ClInclude Include="include\Sheet.h" />
+    <ClInclude Include="include\SkinnedBox.h" />
     <ClInclude Include="include\Sphere.h" />
+    <ClInclude Include="include\Surface.h" />
+    <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Topology.h" />
     <ClInclude Include="include\TransformCbuf.h" />
     <ClInclude Include="include\VertexBuffer.h" />
@@ -294,6 +322,26 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shaders\TexturePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shaders\TextureVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
