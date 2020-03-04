@@ -194,6 +194,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     <ClCompile Include="src\Bindable.cpp" />
     <ClCompile Include="src\Box.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Cylinder.cpp" />
     <ClCompile Include="src\Drawable.cpp" />
     <ClCompile Include="src\DXErr.cpp" />
     <ClCompile Include="src\DxgiInfoManager.cpp" />
@@ -243,6 +244,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     <ClInclude Include="include\Cone.h" />
     <ClInclude Include="include\ConstantBuffers.h" />
     <ClInclude Include="include\Cube.h" />
+    <ClInclude Include="include\Cylinder.h" />
     <ClInclude Include="include\Drawable.h" />
     <ClInclude Include="include\DrawableBase.h" />
     <ClInclude Include="include\DXErr.h" />
@@ -268,6 +270,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     <ClInclude Include="include\SolidSphere.h" />
     <ClInclude Include="include\Sphere.h" />
     <ClInclude Include="include\Surface.h" />
+    <ClInclude Include="include\TestObject.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Topology.h" />
     <ClInclude Include="include\TransformCbuf.h" />
@@ -344,6 +347,20 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shaders\IndexedPhongPS.hlsl">
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Platform)\$(Configuration)\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="shaders\PhongPS.hlsl">
