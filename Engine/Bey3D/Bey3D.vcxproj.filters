@@ -572,7 +572,7 @@
     <ClInclude Include="include\AssimpTest.h">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="include\VertexLayout.h">
+    <ClInclude Include="include\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
