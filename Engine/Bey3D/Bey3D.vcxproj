@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;imgui;assimp-5.0.1/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>_DEBUG;IS_DEBUG=true;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -104,7 +104,9 @@
     </Link>
     <PostBuildEvent>
       <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
+xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,7 +115,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;imgui;assimp-5.0.1/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>_DEBUG;IS_DEBUG=true;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -126,7 +128,9 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     </Link>
     <PostBuildEvent>
       <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
+xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -137,7 +141,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;imgui;assimp-5.0.1/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>NDEBUG;IS_DEBUG=false;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -152,7 +156,9 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     </Link>
     <PostBuildEvent>
       <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
+xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -163,7 +169,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;imgui;assimp-5.0.1/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>NDEBUG;IS_DEBUG=false;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -178,7 +184,9 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     </Link>
     <PostBuildEvent>
       <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E</Command>
+mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
+xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -189,6 +197,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\AssimpTest.cpp" />
     <ClCompile Include="src\BeyException.cpp" />
     <ClCompile Include="src\BeyTimer.cpp" />
     <ClCompile Include="src\Bindable.cpp" />
@@ -224,6 +233,82 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     <ClCompile Include="src\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="assimp-5.0.1\include\assimp\aabb.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\ai_assert.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\anim.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\BaseImporter.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Bitmap.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\BlobIOSystem.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\ByteSwapper.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\camera.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\cexport.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\cfileio.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\cimport.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\color4.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\config.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\CreateAnimMesh.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\DefaultIOStream.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Defines.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\defs.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Exceptional.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Exporter.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\fast_atof.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\GenericProperty.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Hash.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Importer.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\importerdesc.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\IOStream.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\IOStreamBuffer.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\IOSystem.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\irrXMLWrapper.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\light.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\LineSplitter.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\LogAux.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Logger.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\LogStream.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Macros.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\material.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\MathFunctions.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\matrix3x3.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\matrix4x4.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\MemoryIOWrapper.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\mesh.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\metadata.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\NullLogger.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\ParsingUtils.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\pbrmaterial.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\postprocess.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Profiler.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\qnan.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\quaternion.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\RemoveComments.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\scene.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\SceneCombiner.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\SGSpatialSort.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\SkeletonMeshBuilder.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\SmoothingGroups.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\SpatialSort.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\StandardShapes.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\StreamReader.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\StreamWriter.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\StringComparison.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\StringUtils.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Subdivision.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\texture.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\TinyFormatter.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\types.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\vector2.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\vector3.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\version.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\Vertex.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\XMLTools.h" />
+    <ClInclude Include="assimp-5.0.1\include\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx11.h" />
@@ -233,6 +318,7 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="include\App.h" />
+    <ClInclude Include="include\AssimpTest.h" />
     <ClInclude Include="include\BeyException.h" />
     <ClInclude Include="include\BeyMath.h" />
     <ClInclude Include="include\BeyTimer.h" />
@@ -288,6 +374,14 @@ xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D
     <Image Include="Bey3D_Logo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assimp-5.0.1\include\assimp\color4.inl" />
+    <None Include="assimp-5.0.1\include\assimp\material.inl" />
+    <None Include="assimp-5.0.1\include\assimp\matrix3x3.inl" />
+    <None Include="assimp-5.0.1\include\assimp\matrix4x4.inl" />
+    <None Include="assimp-5.0.1\include\assimp\quaternion.inl" />
+    <None Include="assimp-5.0.1\include\assimp\SmoothingGroups.inl" />
+    <None Include="assimp-5.0.1\include\assimp\vector2.inl" />
+    <None Include="assimp-5.0.1\include\assimp\vector3.inl" />
     <None Include="src\DXGetErrorDescription.inl" />
     <None Include="src\DXGetErrorString.inl" />
     <None Include="src\DXTrace.inl" />

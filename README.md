@@ -2,3 +2,9 @@
 The Bey3D Engine
 
 - Plans are for DirectX 11, initially.
+
+Current features:
+- GDI+
+- imGUI
+- assimp
+- Dynamic Lighting

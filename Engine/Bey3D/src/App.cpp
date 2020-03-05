@@ -3,12 +3,16 @@
 #include "Cylinder.h"
 #include "Pyramid.h"
 #include "SkinnedBox.h"
+#include "AssimpTest.h"
 #include <memory>
 #include <algorithm>
 #include "BeyMath.h"
 #include "Surface.h"
 #include "GDIPlusManager.h"
 #include "imgui.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 namespace dx = DirectX;
 
@@ -36,6 +40,8 @@ App::App() : wnd(1160, 600, "Bey3D Engine Demo"), light(wnd.Gfx())
 				return std::make_unique<Pyramid>(gfx, rng, adist, ddist, odist, rdist, tdist);
 			case 3:
 				return std::make_unique<SkinnedBox>(gfx, rng, adist, ddist, odist, rdist);
+			case 4:
+				return std::make_unique<AssTest>(gfx, rng, adist, ddist, odist, rdist, mat, 1.5f);
 			default:
 				assert(false && "impossible drawable option in factory");
 				return {};
@@ -51,7 +57,7 @@ App::App() : wnd(1160, 600, "Bey3D Engine Demo"), light(wnd.Gfx())
 		std::uniform_real_distribution<float> rdist{ 6.0f, 20.0f };
 		std::uniform_real_distribution<float> bdist{ 0.4f, 3.0f };
 		std::uniform_real_distribution<float> cdist{ 0.0f, 1.0f };
-		std::uniform_int_distribution<int> sdist{ 0, 3 };
+		std::uniform_int_distribution<int> sdist{ 0, 4 };
 		std::uniform_int_distribution<int> tdist{ 3, 30 };
 	};
 
