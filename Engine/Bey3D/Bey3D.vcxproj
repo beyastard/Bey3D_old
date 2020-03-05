@@ -361,6 +361,7 @@ xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D
     <ClInclude Include="include\Topology.h" />
     <ClInclude Include="include\TransformCbuf.h" />
     <ClInclude Include="include\VertexBuffer.h" />
+    <ClInclude Include="include\VertexLayout.h" />
     <ClInclude Include="include\VertexShader.h" />
     <ClInclude Include="include\Window.h" />
     <ClInclude Include="include\WindowsMessageMap.h" />
