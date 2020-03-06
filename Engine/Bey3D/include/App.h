@@ -5,6 +5,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
+#include "Model.h"
 #include <set>
 
 class App
@@ -18,9 +19,7 @@ public:
 	
 private:
 	void DoFrame();
-	void SpawnSimulationWindow() noexcept;
-	void SpawnBoxWindowManagerWindow() noexcept;
-	void SpawnBoxWindows() noexcept;
+	void ShowModelWindow();
 
 private:
 	ImguiManager imgui;
@@ -29,11 +28,17 @@ private:
 	Camera cam;
 	PointLight light;
 
-	std::vector<class Box*> boxes;
-	std::vector<std::unique_ptr<class Drawable>> drawables;
-	static constexpr size_t nDrawables = 180;
 	float speed_factor = 1.0f;
 
-	std::optional<int> comboBoxIndex;
-	std::set<int> boxControlIds;
+	Model nano{ wnd.Gfx(),"models/Girl.obj" };
+
+	struct
+	{
+		float roll = 0.0f;
+		float pitch = 0.0f;
+		float yaw = 0.0f;
+		float x = 0.0f;
+		float y = 0.0f;
+		float z = 0.0f;
+	} pos;
 };

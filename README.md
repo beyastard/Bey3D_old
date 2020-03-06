@@ -8,3 +8,4 @@ Current features:
 - imGUI
 - assimp
 - Dynamic Lighting
+- Dynamic Vertex
