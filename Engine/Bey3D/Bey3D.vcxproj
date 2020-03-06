@@ -103,8 +103,8 @@
       <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+      <Command>if not exist $(SolutionDir)$(Platform)\$(Configuration)\images mkdir $(SolutionDir)$(Platform)\$(Configuration)\images
+if not exist $(SolutionDir)$(Platform)\$(Configuration)\models mkdir $(SolutionDir)$(Platform)\$(Configuration)\models
 xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
 xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>
@@ -127,8 +127,8 @@ xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D
       <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+      <Command>if not exist $(SolutionDir)$(Platform)\$(Configuration)\images mkdir $(SolutionDir)$(Platform)\$(Configuration)\images
+if not exist $(SolutionDir)$(Platform)\$(Configuration)\models mkdir $(SolutionDir)$(Platform)\$(Configuration)\models
 xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
 xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>
@@ -155,8 +155,8 @@ xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D
       <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+      <Command>if not exist $(SolutionDir)$(Platform)\$(Configuration)\images mkdir $(SolutionDir)$(Platform)\$(Configuration)\images
+if not exist $(SolutionDir)$(Platform)\$(Configuration)\models mkdir $(SolutionDir)$(Platform)\$(Configuration)\models
 xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
 xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>
@@ -183,8 +183,8 @@ xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D
       <AdditionalDependencies>d3d11.lib;dxguid.lib;d3dcompiler.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir  $(SolutionDir)$(Platform)\$(Configuration)\images
-mkdir  $(SolutionDir)$(Platform)\$(Configuration)\models
+      <Command>if not exist $(SolutionDir)$(Platform)\$(Configuration)\images mkdir $(SolutionDir)$(Platform)\$(Configuration)\images
+if not exist $(SolutionDir)$(Platform)\$(Configuration)\models mkdir $(SolutionDir)$(Platform)\$(Configuration)\models
 xcopy .\images\*.* $(SolutionDir)$(Platform)\$(Configuration)\images /R /Y /Q /D /E
 xcopy .\models\*.* $(SolutionDir)$(Platform)\$(Configuration)\models /R /Y /Q /D /E</Command>
     </PostBuildEvent>

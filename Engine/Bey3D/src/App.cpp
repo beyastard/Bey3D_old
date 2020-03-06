@@ -137,7 +137,7 @@ void App::SpawnBoxWindowManagerWindow() noexcept
 		const auto preview = comboBoxIndex ? std::to_string(*comboBoxIndex) : "Choose a box..."s;
 		if (ImGui::BeginCombo("Box Number", preview.c_str()))
 		{
-			for (int i = 0; i < boxes.size(); i++)
+			for (int i = 0; i < int(boxes.size()); i++)
 			{
 				const bool selected = *comboBoxIndex == i;
 				if (ImGui::Selectable(std::to_string(i).c_str(), selected))
