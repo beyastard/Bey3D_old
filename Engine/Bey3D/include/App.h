@@ -19,6 +19,7 @@ public:
 private:
 	void DoFrame();
 	void ShowImguiDemoWindow();
+	void ShowRawInputWindow();
 
 private:
 	ImguiManager imgui;
@@ -26,6 +27,8 @@ private:
 	BeyTimer timer;
 
 	float speed_factor = 1.0f;
+
+	int x = 0, y = 0;
 
 	Camera cam;
 	PointLight light;

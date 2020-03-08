@@ -22,10 +22,28 @@ void App::DoFrame()
 	girl.Draw(wnd.Gfx());
 	light.Draw(wnd.Gfx());
 
+	while (const auto e = wnd.kbd.ReadKey())
+	{
+		if (e->IsPress() && e->GetCode() == VK_INSERT)
+		{
+			if (wnd.CursorEnabled())
+			{
+				wnd.DisableCursor();
+				wnd.mouse.EnableRaw();
+			}
+			else
+			{
+				wnd.EnableCursor();
+				wnd.mouse.DisableRaw();
+			}
+		}
+	}
+
 	// imgui windows
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
 	girl.ShowWindow();
+	ShowRawInputWindow();
 
 	// present
 	wnd.Gfx().EndFrame();
@@ -36,6 +54,23 @@ void App::ShowImguiDemoWindow()
 	static bool show_demo_window = true;
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
+}
+
+void App::ShowRawInputWindow()
+{
+	while (const auto d = wnd.mouse.ReadRawDelta())
+	{
+		x += d->x;
+		y += d->y;
+	}
+
+	if (ImGui::Begin("Raw Input"))
+	{
+		ImGui::Text("Tally: (%d,%d)", x, y);
+		ImGui::Text("Cursor: %s", wnd.CursorEnabled() ? "enabled" : "disabled");
+	}
+
+	ImGui::End();
 }
 
 App::~App() = default;
