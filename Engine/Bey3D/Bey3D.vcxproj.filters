@@ -132,9 +132,6 @@
     <ClCompile Include="src\PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AssimpTest.cpp">
-      <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="src\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -244,18 +241,6 @@
     </ClInclude>
     <ClInclude Include="include\BeyMath.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Prism.h">
-      <Filter>Header Files\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Plane.h">
-      <Filter>Header Files\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Cube.h">
-      <Filter>Header Files\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Cone.h">
-      <Filter>Header Files\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="include\Surface.h">
       <Filter>Header Files</Filter>
@@ -509,9 +494,6 @@
     <ClInclude Include="assimp-5.0.1\include\assimp\ZipArchiveIOSystem.h">
       <Filter>assimp</Filter>
     </ClInclude>
-    <ClInclude Include="include\AssimpTest.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="include\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -526,9 +508,6 @@
     </ClInclude>
     <ClInclude Include="include\Color.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TestObject.h">
-      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="include\Mesh.h">
       <Filter>Header Files</Filter>
@@ -604,24 +583,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shaders\ColorIndexVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\ColorIndexPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\ColorBlendVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\ColorBlendPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\TextureVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\TexturePS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="shaders\PhongVS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
@@ -632,21 +593,6 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="shaders\SolidPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\IndexedPhongPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\BlendedPhongVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\BlendedPhongPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\TexturedPhongVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\TexturedPhongPS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
