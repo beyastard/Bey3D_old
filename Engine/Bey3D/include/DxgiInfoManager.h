@@ -13,6 +13,7 @@ public:
 	~DxgiInfoManager() = default;
 	DxgiInfoManager(const DxgiInfoManager&) = delete;
 	DxgiInfoManager& operator=(const DxgiInfoManager&) = delete;
+
 	void Set() noexcept;
 	std::vector<std::string> GetMessages() const;
 

@@ -4,13 +4,12 @@
 #include <array>
 #include "IndexedTriangleList.h"
 #include "BeyMath.h"
-#include "DirectXMath.h"
 
 class Plane
 {
 public:
 	template<class V>
-	static IndexedTriangleList<V> MakeTesselated(int divisions_x, int divisions_y)
+	static IndexedTriangleList<V> MakeTessellated(int divisions_x, int divisions_y)
 	{
 		namespace dx = DirectX;
 		assert(divisions_x >= 1);
@@ -45,12 +44,12 @@ public:
 		{
 			const auto vxy2i = [nVertices_x](size_t x, size_t y)
 			{
-				return static_cast<unsigned short>(y * nVertices_x + x);
+				return (unsigned short)(y * nVertices_x + x);
 			};
 
-			for (size_t y = 0; y < size_t(divisions_y); y++)
+			for (size_t y = 0; y < divisions_y; y++)
 			{
-				for (size_t x = 0; x < size_t(divisions_x); x++)
+				for (size_t x = 0; x < divisions_x; x++)
 				{
 					const std::array<unsigned short, 4> indexArray =
 					{ vxy2i(x,y),vxy2i(x + 1,y),vxy2i(x,y + 1),vxy2i(x + 1,y + 1) };
@@ -70,6 +69,6 @@ public:
 	template<class V>
 	static IndexedTriangleList<V> Make()
 	{
-		return MakeTesselated<V>(1, 1);
+		return MakeTessellated<V>(1, 1);
 	}
 };

@@ -6,8 +6,6 @@
 #include "GraphicsThrowMacros.h"
 #include "WindowsThrowMacros.h"
 
-//#pragma comment(lib, "dxguid.lib")
-
 DxgiInfoManager::DxgiInfoManager()
 {
 	// define function signature of DXGIGetDebugInterface

@@ -4,18 +4,16 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include "GraphicsThrowMacros.h"
-#include "imgui_impl_dx11.h"
-#include "imgui_impl_win32.h"
-#include "BeyConfigs.h"
+#include "imgui/imgui_impl_dx11.h"
+#include "imgui/imgui_impl_win32.h"
 
 namespace wrl = Microsoft::WRL;
-namespace dx = DirectX;
 
-Graphics::Graphics(HWND hWnd)
+Graphics::Graphics(HWND hWnd, int width, int height)
 {
 	DXGI_SWAP_CHAIN_DESC sd = {};
-	sd.BufferDesc.Width = 0;
-	sd.BufferDesc.Height = 0;
+	sd.BufferDesc.Width = width;
+	sd.BufferDesc.Height = height;
 	sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	sd.BufferDesc.RefreshRate.Numerator = 0;
 	sd.BufferDesc.RefreshRate.Denominator = 0;
@@ -54,12 +52,12 @@ Graphics::Graphics(HWND hWnd)
 		&pContext
 	));
 
-	// gain access to texture sub-resource in swap chain (back buffer)
+	// gain access to texture subresource in swap chain (back buffer)
 	wrl::ComPtr<ID3D11Resource> pBackBuffer;
 	GFX_THROW_INFO(pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
 	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 
-	// create depth stencil state
+	// create depth stensil state
 	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
 	dsDesc.DepthEnable = TRUE;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -73,8 +71,8 @@ Graphics::Graphics(HWND hWnd)
 	// create depth stencil texture
 	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
 	D3D11_TEXTURE2D_DESC descDepth = {};
-	descDepth.Width = WIDTH;
-	descDepth.Height = HEIGHT;
+	descDepth.Width = width;
+	descDepth.Height = height;
 	descDepth.MipLevels = 1u;
 	descDepth.ArraySize = 1u;
 	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
@@ -96,8 +94,8 @@ Graphics::Graphics(HWND hWnd)
 
 	// configure viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = float(WIDTH);
-	vp.Height = float(HEIGHT);
+	vp.Width = float(width);
+	vp.Height = float(height);
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0.0f;
@@ -149,7 +147,7 @@ void Graphics::BeginFrame(float red, float green, float blue) noexcept
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::DrawIndexed(UINT count) noexcept(!IS_DEBUG)
+void Graphics::DrawIndexed(UINT count) noxnd
 {
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
 }
@@ -210,7 +208,7 @@ const char* Graphics::HrException::what() const noexcept
 	std::ostringstream oss;
 	oss << GetType() << std::endl
 		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-		<< std::dec << " (" << static_cast<unsigned long>(GetErrorCode()) << ")" << std::endl
+		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
 		<< "[Error String] " << GetErrorString() << std::endl
 		<< "[Description] " << GetErrorDescription() << std::endl;
 
@@ -219,7 +217,6 @@ const char* Graphics::HrException::what() const noexcept
 
 	oss << GetOriginString();
 	whatBuffer = oss.str();
-
 	return whatBuffer.c_str();
 }
 
@@ -255,7 +252,7 @@ const char* Graphics::DeviceRemovedException::GetType() const noexcept
 	return "Bey3D Graphics Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
 }
 
-Graphics::InfoException::InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept
+Graphics::InfoException::InfoException(int line, const char * file, std::vector<std::string> infoMsgs) noexcept
 	: Exception(line, file)
 {
 	// join all info messages with newlines into single string
@@ -275,9 +272,7 @@ const char* Graphics::InfoException::what() const noexcept
 	std::ostringstream oss;
 	oss << GetType() << std::endl << "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
 	oss << GetOriginString();
-
 	whatBuffer = oss.str();
-
 	return whatBuffer.c_str();
 }
 

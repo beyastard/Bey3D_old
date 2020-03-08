@@ -1,17 +1,20 @@
 #include "AssimpTest.h"
-#include "BindableBase.h"
+#include "BindableCommon.h"
 #include "GraphicsThrowMacros.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "Vertex.h"
 
-AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
+using namespace Bind;
+
+AssimpTest::AssimpTest(Graphics& gfx, std::mt19937& rng,
 	std::uniform_real_distribution<float>& adist,
 	std::uniform_real_distribution<float>& ddist,
 	std::uniform_real_distribution<float>& odist,
 	std::uniform_real_distribution<float>& rdist,
-	DirectX::XMFLOAT3 material, float scale)
+	DirectX::XMFLOAT3 material,
+	float scale)
 	:
 	TestObject(gfx, rng, adist, ddist, odist, rdist)
 {
@@ -19,23 +22,23 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
 
 	if (!IsStaticInitialized())
 	{
-		using Bey3DExp::VertexLayout;
-		Bey3DExp::VertexBuffer vbuf(std::move(
-			VertexLayout{}.Append(VertexLayout::Position3D).Append(VertexLayout::Normal)));
+		using Dynamic::VertexLayout;
+		Dynamic::VertexBuffer vbuf(std::move(
+			VertexLayout{}
+			.Append(VertexLayout::Position3D)
+			.Append(VertexLayout::Normal)));
 
 		Assimp::Importer imp;
 		const auto pModel = imp.ReadFile("models\\suzanne.obj",
 			aiProcess_Triangulate |
-			aiProcess_JoinIdenticalVertices
-		);
+			aiProcess_JoinIdenticalVertices);
 		const auto pMesh = pModel->mMeshes[0];
 
 		for (unsigned int i = 0; i < pMesh->mNumVertices; i++)
 		{
 			vbuf.EmplaceBack(
 				dx::XMFLOAT3{ pMesh->mVertices[i].x * scale,pMesh->mVertices[i].y * scale,pMesh->mVertices[i].z * scale },
-				*reinterpret_cast<dx::XMFLOAT3*>(&pMesh->mNormals[i])
-			);
+				*reinterpret_cast<dx::XMFLOAT3*>(&pMesh->mNormals[i]));
 		}
 
 		std::vector<unsigned short> indices;
@@ -54,7 +57,7 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
 		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, indices));
 
 		auto pvs = std::make_unique<VertexShader>(gfx, L"PhongVS.cso");
-		auto pvsbc = pvs->GetBytecode();
+		auto pvsbc = pvs->GetByteCode();
 		AddStaticBind(std::move(pvs));
 
 		AddStaticBind(std::make_unique<PixelShader>(gfx, L"PhongPS.cso"));

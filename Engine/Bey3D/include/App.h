@@ -5,8 +5,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
-#include "Model.h"
-#include <set>
+#include "Mesh.h"
 
 class App
 {
@@ -19,26 +18,17 @@ public:
 	
 private:
 	void DoFrame();
-	void ShowModelWindow();
+	void ShowImguiDemoWindow();
 
 private:
 	ImguiManager imgui;
 	Window wnd;
 	BeyTimer timer;
-	Camera cam;
-	PointLight light;
 
 	float speed_factor = 1.0f;
 
-	Model nano{ wnd.Gfx(),"models/Girl.obj" };
+	Camera cam;
+	PointLight light;
 
-	struct
-	{
-		float roll = 0.0f;
-		float pitch = 0.0f;
-		float yaw = 0.0f;
-		float x = 0.0f;
-		float y = 0.0f;
-		float z = 0.0f;
-	} pos;
+	Model girl{ wnd.Gfx(),"Models/girl.fbx" };
 };

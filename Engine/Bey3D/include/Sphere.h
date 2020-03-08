@@ -8,7 +8,7 @@ class Sphere
 {
 public:
 	template<class V>
-	static IndexedTriangleList<V> MakeTesselated(int latDiv, int longDiv)
+	static IndexedTriangleList<V> MakeTessellated(int latDiv, int longDiv)
 	{
 		namespace dx = DirectX;
 		assert(latDiv >= 3);
@@ -16,18 +16,17 @@ public:
 
 		constexpr float radius = 1.0f;
 		const auto base = dx::XMVectorSet(0.0f, 0.0f, radius, 0.0f);
-		const float lattitudeAngle = PI / latDiv;
+		const float latitudeAngle = PI / latDiv;
 		const float longitudeAngle = 2.0f * PI / longDiv;
 
 		std::vector<V> vertices;
 		for (int iLat = 1; iLat < latDiv; iLat++)
 		{
-			const auto latBase = dx::XMVector3Transform(base, dx::XMMatrixRotationX(lattitudeAngle * iLat));
-
+			const auto latBase = XMVector3Transform(base, dx::XMMatrixRotationX(latitudeAngle * iLat));
 			for (int iLong = 0; iLong < longDiv; iLong++)
 			{
 				vertices.emplace_back();
-				auto v = dx::XMVector3Transform(latBase, dx::XMMatrixRotationZ(longitudeAngle * iLong));
+				auto v = XMVector3Transform(latBase, dx::XMMatrixRotationZ(longitudeAngle * iLong));
 				dx::XMStoreFloat3(&vertices.back().pos, v);
 			}
 		}
@@ -36,6 +35,7 @@ public:
 		const auto iNorthPole = (unsigned short)vertices.size();
 		vertices.emplace_back();
 		dx::XMStoreFloat3(&vertices.back().pos, base);
+
 		const auto iSouthPole = (unsigned short)vertices.size();
 		vertices.emplace_back();
 		dx::XMStoreFloat3(&vertices.back().pos, dx::XMVectorNegate(base));
@@ -98,6 +98,6 @@ public:
 	template<class V>
 	static IndexedTriangleList<V> Make()
 	{
-		return MakeTesselated<V>(12, 24);
+		return MakeTessellated<V>(12, 24);
 	}
 };

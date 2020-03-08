@@ -30,6 +30,7 @@ public:
 		roll = wrap_angle(roll + droll * dt);
 		pitch = wrap_angle(pitch + dpitch * dt);
 		yaw = wrap_angle(yaw + dyaw * dt);
+
 		theta = wrap_angle(theta + dtheta * dt);
 		phi = wrap_angle(phi + dphi * dt);
 		chi = wrap_angle(chi + dchi * dt);
@@ -49,6 +50,7 @@ protected:
 	float roll = 0.0f;
 	float pitch = 0.0f;
 	float yaw = 0.0f;
+
 	float theta;
 	float phi;
 	float chi;
@@ -57,6 +59,7 @@ protected:
 	float droll;
 	float dpitch;
 	float dyaw;
+
 	float dtheta;
 	float dphi;
 	float dchi;

@@ -10,10 +10,16 @@
 #include <DirectXMath.h>
 #include <memory>
 #include <random>
+#include "ConditionalNoExcept.h"
+
+namespace Bind
+{
+	class Bindable;
+}
 
 class Graphics
 {
-	friend class Bindable;
+	friend Bind::Bindable;
 
 public:
 	class Exception : public BeyException
@@ -27,6 +33,7 @@ public:
 		HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs = {}) noexcept;
 		const char* what() const noexcept override;
 		const char* GetType() const noexcept override;
+
 		HRESULT GetErrorCode() const noexcept;
 		std::string GetErrorString() const noexcept;
 		std::string GetErrorDescription() const noexcept;
@@ -52,21 +59,25 @@ public:
 	class DeviceRemovedException : public HrException
 	{
 		using HrException::HrException;
+
 	public:
 		const char* GetType() const noexcept override;
+
 	private:
 		std::string reason;
 	};
 
 public:
-	Graphics(HWND hWnd);
+	Graphics(HWND hWnd, int width, int height);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
 
 	void EndFrame();
 	void BeginFrame(float red, float green, float blue) noexcept;
-	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
+
+	void DrawIndexed(UINT count) noxnd;
+
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
 
@@ -78,14 +89,14 @@ public:
 	bool IsImguiEnabled() const noexcept;
 
 private:
-	DirectX::XMMATRIX camera;
 	DirectX::XMMATRIX projection;
-
+	DirectX::XMMATRIX camera;
 	bool imguiEnabled = true;
 
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif
+
 	Microsoft::WRL::ComPtr<ID3D11Device> pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> pSwap;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;

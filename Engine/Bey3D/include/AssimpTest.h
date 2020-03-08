@@ -3,10 +3,10 @@
 #include "TestObject.h"
 #include "ConstantBuffers.h"
 
-class AssTest : public TestObject<AssTest>
+class AssimpTest : public TestObject<AssimpTest>
 {
 public:
-	AssTest(Graphics& gfx, std::mt19937& rng,
+	AssimpTest(Graphics& gfx, std::mt19937& rng,
 		std::uniform_real_distribution<float>& adist,
 		std::uniform_real_distribution<float>& ddist,
 		std::uniform_real_distribution<float>& odist,

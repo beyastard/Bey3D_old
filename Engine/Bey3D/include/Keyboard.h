@@ -60,10 +60,10 @@ public:
 	void FlushChar() noexcept;
 	void Flush() noexcept;
 
-	// autorepeat control
-	void EnableAutorepeat() noexcept;
-	void DisableAutorepeat() noexcept;
-	bool AutorepeatIsEnabled() const noexcept;
+	// auto-repeat control
+	void EnableAutoRepeat() noexcept;
+	void DisableAutoRepeat() noexcept;
+	bool AutoRepeatIsEnabled() const noexcept;
 
 private:
 	void OnKeyPressed(unsigned char keycode) noexcept;
@@ -76,8 +76,8 @@ private:
 private:
 	static constexpr unsigned int nKeys = 256u;
 	static constexpr unsigned int bufferSize = 16u;
-	bool autorepeatEnabled = false;
-	std::bitset<nKeys> keystates;
-	std::queue<Event> keybuffer;
-	std::queue<char> charbuffer;
+	bool autoRepeatEnabled = false;
+	std::bitset<nKeys> keyStates;
+	std::queue<Event> keyBuffer;
+	std::queue<char> charBuffer;
 };

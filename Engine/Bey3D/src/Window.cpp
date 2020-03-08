@@ -2,7 +2,7 @@
 #include <sstream>
 #include "resource.h"
 #include "WindowsThrowMacros.h"
-#include "imgui_impl_win32.h"
+#include "imgui/imgui_impl_win32.h"
 
 // Window Class Stuff
 Window::WindowClass Window::WindowClass::wndClass;
@@ -60,7 +60,8 @@ Window::Window(int width, int height, const char* name)
 		WindowClass::GetName(), name,
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
-		nullptr, nullptr, WindowClass::GetInstance(), this);
+		nullptr, nullptr, WindowClass::GetInstance(), this
+	);
 
 	// check for error
 	if (hWnd == nullptr)
@@ -73,7 +74,7 @@ Window::Window(int width, int height, const char* name)
 	ImGui_ImplWin32_Init(hWnd);
 
 	// create graphics object
-	pGfx = std::make_unique<Graphics>(hWnd);
+	pGfx = std::make_unique<Graphics>(hWnd, width, height);
 }
 
 Window::~Window()
@@ -91,7 +92,6 @@ void Window::SetTitle(const std::string& title)
 std::optional<int> Window::ProcessMessages() noexcept
 {
 	MSG msg;
-
 	// while queue has messages, remove and dispatch them (but do not block on empty queue)
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
@@ -127,13 +127,13 @@ LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		// extract ptr to window class from creation data
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
 		Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
-
+		
 		// set WinAPI-managed user data to store ptr to window instance
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
-
+		
 		// set message proc to normal (non-setup) handler now that setup is finished
 		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk));
-
+		
 		// forward message to window instance handler
 		return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 	}
@@ -146,7 +146,7 @@ LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 {
 	// retrieve ptr to window instance
 	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-
+	
 	// forward message to window instance handler
 	return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 }
@@ -156,7 +156,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 		return true;
 
-	const ImGuiIO& imio = ImGui::GetIO();
+	const auto& imio = ImGui::GetIO();
 
 	switch (msg)
 	{
@@ -177,10 +177,8 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		// stifle this keyboard message if imgui wants to capture
 		if (imio.WantCaptureKeyboard)
 			break;
-		if (!(lParam & 0x40000000) || kbd.AutorepeatIsEnabled()) // filter autorepeat
-		{
+		if (!(lParam & 0x40000000) || kbd.AutoRepeatIsEnabled()) // filter autorepeat
 			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
-		}
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
@@ -214,15 +212,11 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 				mouse.OnMouseEnter();
 			}
 		}
-		// not in client -> log move / maintain capture if button down
-		else
+		else // not in client -> log move / maintain capture if button down
 		{
 			if (wParam & (MK_LBUTTON | MK_RBUTTON))
-			{
 				mouse.OnMouseMove(pt.x, pt.y);
-			}
-			// button up -> release capture / log event for leaving
-			else
+			else // button up -> release capture / log event for leaving
 			{
 				ReleaseCapture();
 				mouse.OnMouseLeave();
@@ -238,7 +232,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			break;
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftPressed(pt.x, pt.y);
-		SetForegroundWindow(hWnd);
 		break;
 	}
 	case WM_RBUTTONDOWN:
@@ -291,7 +284,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		break;
 	}
 	/************** END MOUSE MESSAGES **************/
-	default:;
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -301,7 +293,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
 	char* pMsgBuf = nullptr;
-
 	// windows will allocate memory for err string and make our pointer point to it
 	const DWORD nMsgLen = FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -315,12 +306,12 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 
 	// copy error string from windows-allocated buffer to std::string
 	std::string errorString = pMsgBuf;
-
+	
 	// free windows buffer
 	LocalFree(pMsgBuf);
-
 	return errorString;
 }
+
 
 Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
 	: Exception(line, file), hr(hr)
@@ -331,7 +322,7 @@ const char* Window::HrException::what() const noexcept
 	std::ostringstream oss;
 	oss << GetType() << std::endl
 		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-		<< std::dec << " (" << static_cast<unsigned long>(GetErrorCode()) << ")" << std::endl
+		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
 		<< "[Description] " << GetErrorDescription() << std::endl
 		<< GetOriginString();
 	whatBuffer = oss.str();
@@ -352,7 +343,6 @@ std::string Window::HrException::GetErrorDescription() const noexcept
 {
 	return TranslateErrorCode(hr);
 }
-
 
 const char* Window::NoGfxException::GetType() const noexcept
 {

@@ -7,9 +7,6 @@
 *.o
 *.obj
 
-# Don't ignore the Models!
-!Bey3D/models/*.obj
-
 # Precompiled Headers
 *.gch
 *.pch

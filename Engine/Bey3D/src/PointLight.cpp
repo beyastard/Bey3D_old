@@ -1,7 +1,8 @@
 #include "PointLight.h"
-#include "imgui.h"
+#include "imgui/imgui.h"
 
-PointLight::PointLight(Graphics& gfx, float radius) : mesh(gfx, radius), cbuf(gfx)
+PointLight::PointLight(Graphics& gfx, float radius)
+	: mesh(gfx, radius), cbuf(gfx)
 {
 	Reset();
 }
@@ -34,7 +35,8 @@ void PointLight::SpawnControlWindow() noexcept
 
 void PointLight::Reset() noexcept
 {
-	cbData = {
+	cbData =
+	{
 		{ 0.0f,0.0f,0.0f },
 		{ 0.05f,0.05f,0.05f },
 		{ 1.0f,1.0f,1.0f },
@@ -45,7 +47,7 @@ void PointLight::Reset() noexcept
 	};
 }
 
-void PointLight::Draw(Graphics& gfx) const noexcept(!true)
+void PointLight::Draw(Graphics& gfx) const noxnd
 {
 	mesh.SetPos(cbData.pos);
 	mesh.Draw(gfx);
@@ -54,8 +56,8 @@ void PointLight::Draw(Graphics& gfx) const noexcept(!true)
 void PointLight::Bind(Graphics& gfx, DirectX::FXMMATRIX view) const noexcept
 {
 	auto dataCopy = cbData;
-	const auto pos = DirectX::XMLoadFloat3(&cbData.pos);
-	DirectX::XMStoreFloat3(&dataCopy.pos, DirectX::XMVector3Transform(pos, view));
+	const auto pos = XMLoadFloat3(&cbData.pos);
+	XMStoreFloat3(&dataCopy.pos, XMVector3Transform(pos, view));
 	cbuf.Update(gfx, dataCopy);
 	cbuf.Bind(gfx);
 }

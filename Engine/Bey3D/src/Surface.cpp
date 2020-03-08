@@ -13,7 +13,10 @@ namespace Gdiplus
 #include <sstream>
 
 Surface::Surface(unsigned int width, unsigned int height) noexcept
-	: pBuffer(std::make_unique<Color[]>(width * height)), width(width), height(height)
+	:
+	pBuffer(std::make_unique<Color[]>(width * height)),
+	width(width),
+	height(height)
 {}
 
 Surface& Surface::operator=(Surface&& donor) noexcept
@@ -26,7 +29,10 @@ Surface& Surface::operator=(Surface&& donor) noexcept
 }
 
 Surface::Surface(Surface && source) noexcept
-	: pBuffer(std::move(source.pBuffer)), width(source.width), height(source.height)
+	:
+	pBuffer(std::move(source.pBuffer)),
+	width(source.width),
+	height(source.height)
 {}
 
 Surface::~Surface() = default;
@@ -36,7 +42,7 @@ void Surface::Clear(Color fillValue) noexcept
 	memset(pBuffer.get(), fillValue.dword, width * height * sizeof(Color));
 }
 
-void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noexcept(!IS_DEBUG)
+void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noxnd
 {
 	assert(x >= 0);
 	assert(y >= 0);
@@ -45,7 +51,7 @@ void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noexcept(!IS_DEB
 	pBuffer[y * width + x] = c;
 }
 
-Surface::Color Surface::GetPixel(unsigned int x, unsigned int y) const noexcept(!IS_DEBUG)
+Surface::Color Surface::GetPixel(unsigned int x, unsigned int y) const noxnd
 {
 	assert(x >= 0);
 	assert(y >= 0);
@@ -86,7 +92,7 @@ Surface Surface::FromFile(const std::string& name)
 	std::unique_ptr<Color[]> pBuffer;
 
 	{
-		// convert filename to wide string (for GDIPlus)
+		// convert filename to wide string (for Gdiplus)
 		wchar_t wideName[512];
 		mbstowcs_s(nullptr, wideName, name.c_str(), _TRUNCATE);
 
@@ -120,8 +126,8 @@ void Surface::Save(const std::string& filename) const
 {
 	auto GetEncoderClsid = [&filename](const WCHAR* format, CLSID* pClsid) -> void
 	{
-		UINT  num = 0;  // number of image encoders
-		UINT  size = 0; // size of the image encoder array in bytes
+		UINT  num = 0;          // number of image encoders
+		UINT  size = 0;         // size of the image encoder array in bytes
 
 		Gdiplus::ImageCodecInfo* pImageCodecInfo = nullptr;
 
@@ -162,6 +168,7 @@ void Surface::Save(const std::string& filename) const
 	CLSID bmpID;
 	GetEncoderClsid(L"image/bmp", &bmpID);
 
+
 	// convert filename to wide string (for Gdiplus)
 	wchar_t wideName[512];
 	mbstowcs_s(nullptr, wideName, filename.c_str(), _TRUNCATE);
@@ -175,7 +182,7 @@ void Surface::Save(const std::string& filename) const
 	}
 }
 
-void Surface::Copy(const Surface& src) noexcept(!IS_DEBUG)
+void Surface::Copy(const Surface& src) noxnd
 {
 	assert(width == src.width);
 	assert(height == src.height);

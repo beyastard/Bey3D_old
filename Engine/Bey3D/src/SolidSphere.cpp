@@ -1,10 +1,11 @@
 #include "SolidSphere.h"
-#include "BindableBase.h"
+#include "BindableCommon.h"
 #include "GraphicsThrowMacros.h"
 #include "Sphere.h"
 
 SolidSphere::SolidSphere(Graphics& gfx, float radius)
 {
+	using namespace Bind;
 	namespace dx = DirectX;
 
 	if (!IsStaticInitialized())
@@ -13,14 +14,13 @@ SolidSphere::SolidSphere(Graphics& gfx, float radius)
 		{
 			dx::XMFLOAT3 pos;
 		};
-
 		auto model = Sphere::Make<Vertex>();
 		model.Transform(dx::XMMatrixScaling(radius, radius, radius));
 		AddBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
 		AddIndexBuffer(std::make_unique<IndexBuffer>(gfx, model.indices));
 
 		auto pvs = std::make_unique<VertexShader>(gfx, L"SolidVS.cso");
-		auto pvsbc = pvs->GetBytecode();
+		auto pvsbc = pvs->GetByteCode();
 		AddStaticBind(std::move(pvs));
 
 		AddStaticBind(std::make_unique<PixelShader>(gfx, L"SolidPS.cso"));

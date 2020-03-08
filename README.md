@@ -9,3 +9,4 @@ Current features:
 - assimp
 - Dynamic Lighting
 - Dynamic Vertex
+- Node-based Models

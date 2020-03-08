@@ -33,7 +33,7 @@ bool Mouse::RightIsPressed() const noexcept
 
 std::optional<Mouse::Event> Mouse::Read() noexcept
 {
-	if (buffer.size() > 0u)
+	if (!buffer.empty())
 	{
 		Event e = buffer.front();
 		buffer.pop();

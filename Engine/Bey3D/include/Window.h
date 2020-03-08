@@ -52,7 +52,8 @@ private:
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
 		WindowClass& operator=(const WindowClass&) = delete;
-		static constexpr const char* wndClassName = "Bey3D Direct3D Engine Window";
+
+		static constexpr const char* wndClassName = "Bey3D Direct3D11 Engine Window";
 		static WindowClass wndClass;
 		HINSTANCE hInst;
 	};
@@ -62,6 +63,7 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
+
 	void SetTitle(const std::string& title);
 	static std::optional<int> ProcessMessages() noexcept;
 	Graphics& Gfx();
@@ -78,6 +80,7 @@ public:
 private:
 	int width;
 	int height;
+
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
 };
