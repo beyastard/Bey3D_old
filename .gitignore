@@ -5,7 +5,7 @@
 *.slo
 *.lo
 *.o
-*.obj
+# *.obj
 
 # I don't know if this will work :/
 !Bey3D/Models/**/*.obj
