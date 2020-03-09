@@ -1,5 +1,5 @@
 #pragma once
 
 // windowed dimensions
-#define WIDTH 1160u
-#define HEIGHT 600u
+#define WIDTH 1280u
+#define HEIGHT 720u

@@ -19,7 +19,7 @@ void App::DoFrame()
 	wnd.Gfx().SetCamera(cam.GetMatrix());
 	light.Bind(wnd.Gfx(), cam.GetMatrix());
 
-	girl.Draw(wnd.Gfx());
+	nano.Draw(wnd.Gfx());
 	light.Draw(wnd.Gfx());
 
 	while (const auto e = wnd.kbd.ReadKey())
@@ -76,7 +76,7 @@ void App::DoFrame()
 	// imgui windows
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
-	girl.ShowWindow();
+	nano.ShowWindow();
 
 	// present
 	wnd.Gfx().EndFrame();

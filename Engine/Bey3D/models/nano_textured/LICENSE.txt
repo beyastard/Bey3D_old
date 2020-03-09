@@ -1,0 +1,8 @@
+Original Nanosuit model by ForrestPL:
+http://tf3dm.com/3d-model/crysis-2-nanosuit-2-97837.html
+http://best-free-model.net/people-and-related-ware/beds-and-shkaps/crysis-2-nanosuit-2-3d-model-40151/
+
+Slightly modified for use in the LearnOpenGL.com tutorials (by Joey de Vries)
+https://github.com/L4zh/Learn-OpenGL
+
+For personal use only

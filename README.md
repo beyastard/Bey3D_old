@@ -10,3 +10,4 @@ Current features:
 - Dynamic Lighting
 - Dynamic Vertex
 - Node-based Models
+- Textures/Specular Mapping

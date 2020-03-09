@@ -13,7 +13,7 @@ DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 {
 	using namespace dx;
 
-	const dx::XMVECTOR forwardBaseVector = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	const XMVECTOR forwardBaseVector = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	
 	// apply the camera rotations to a base vector
 	const auto lookVector = XMVector3Transform(forwardBaseVector,
@@ -62,12 +62,14 @@ void Camera::Rotate(float dx, float dy) noexcept
 
 void Camera::Translate(DirectX::XMFLOAT3 translation) noexcept
 {
-	dx::XMStoreFloat3(&translation, dx::XMVector3Transform(
-		dx::XMLoadFloat3(&translation),
+	XMStoreFloat3(&translation, XMVector3Transform(
+		XMLoadFloat3(&translation),
 		dx::XMMatrixRotationRollPitchYaw(pitch, yaw, 0.0f) *
 		dx::XMMatrixScaling(travelSpeed, travelSpeed, travelSpeed)
 	));
-	pos = {
+
+	pos =
+	{
 		pos.x + translation.x,
 		pos.y + translation.y,
 		pos.z + translation.z

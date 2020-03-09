@@ -32,5 +32,5 @@ private:
 	Camera cam;
 	PointLight light;
 
-	Model girl{ wnd.Gfx(),"Models/girl.fbx" };
+	Model nano{ wnd.Gfx(),"Models/nano_textured/nanosuit.obj" };
 };
